@@ -1,0 +1,930 @@
+definitions:
+  controllers.Credentials:
+    properties:
+      password:
+        type: string
+      username:
+        type: string
+    type: object
+  controllers.Payload:
+    properties:
+      token:
+        type: string
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  models.Apartment:
+    properties:
+      address:
+        type: string
+      amenities:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.Complaint:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      description:
+        type: string
+      id:
+        type: integer
+      updatedAt:
+        type: string
+      userId:
+        type: integer
+    type: object
+  models.Lease:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      leaseEndDate:
+        type: string
+      leaseStartDate:
+        type: string
+      listingId:
+        type: integer
+      updatedAt:
+        type: string
+      userId:
+        type: integer
+    type: object
+  models.Listing:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      houseType:
+        type: string
+      id:
+        type: integer
+      isleased:
+        type: boolean
+      listingImg:
+        type: string
+      listingType:
+        type: string
+      rent:
+        type: integer
+      societyId:
+        type: string
+      updatedAt:
+        type: string
+      userId:
+        type: integer
+    type: object
+  models.Society:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      societyAddress:
+        type: string
+      societyAmenities:
+        type: string
+      societyCity:
+        type: string
+      societyImg:
+        type: string
+      societyName:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  models.User:
+    properties:
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      email:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      password:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /apartments:
+    get:
+      consumes:
+      - application/json
+      description: Get details of all apartments
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Apartment'
+            type: array
+      summary: Get details of all apartments
+      tags:
+      - apartments
+    post:
+      consumes:
+      - application/json
+      description: Create a new apartment
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Apartment'
+            type: array
+      summary: Create an apartment
+      tags:
+      - apartments
+  /apartments/{apartmentId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete the existing apartment
+      parameters:
+      - description: apartmentId
+        in: path
+        name: apartmentId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Apartment'
+            type: array
+      summary: Delete apartment
+      tags:
+      - apartments
+    get:
+      consumes:
+      - application/json
+      description: Get details of the apartments
+      parameters:
+      - description: apartmentId
+        in: path
+        name: apartmentId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Apartment'
+            type: array
+      summary: Get details of the apartments
+      tags:
+      - apartments
+    put:
+      consumes:
+      - application/json
+      description: Update the existing apartment
+      parameters:
+      - description: apartmentId
+        in: path
+        name: apartmentId
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Apartment'
+            type: array
+      summary: Update apartment
+      tags:
+      - apartments
+  /complaints:
+    get:
+      consumes:
+      - application/json
+      description: Get details of all complaints
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Complaint'
+            type: array
+      summary: Get details of all complaints
+      tags:
+      - complaints
+    post:
+      consumes:
+      - application/json
+      description: Create a new complaint
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Complaint'
+            type: array
+      summary: Create complaint
+      tags:
+      - complaints
+  /complaints/{complaintId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete the existing complaint
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Complaint'
+            type: array
+      summary: Delete complaint
+      tags:
+      - complaints
+    get:
+      consumes:
+      - application/json
+      description: Get details of complaint
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: complaintId
+        in: path
+        name: leaseId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Complaint'
+            type: array
+      summary: Get details of complaint
+      tags:
+      - complaints
+  /complaints/user/{userId}:
+    get:
+      consumes:
+      - application/json
+      description: Get details of complaint made by a specific user
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: userId
+        in: path
+        name: leaseId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Complaint'
+            type: array
+      summary: Get all complaints of user
+      tags:
+      - complaints
+  /leases:
+    get:
+      consumes:
+      - application/json
+      description: Get details of all leases
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Lease'
+            type: array
+      summary: Get details of all leases
+      tags:
+      - leases
+    post:
+      consumes:
+      - application/json
+      description: Create a new lease
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Lease'
+            type: array
+      summary: Create lease
+      tags:
+      - leases
+  /leases/{leaseId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete the existing lease
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Lease'
+            type: array
+      summary: Delete lease
+      tags:
+      - leases
+    get:
+      consumes:
+      - application/json
+      description: Get details of leases
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: leaseId
+        in: path
+        name: leaseId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Lease'
+            type: array
+      summary: Get details lease
+      tags:
+      - leases
+    put:
+      consumes:
+      - application/json
+      description: Update the existing lease
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: leaseId
+        in: path
+        name: leaseId
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Lease'
+            type: array
+      summary: Update lease
+      tags:
+      - leases
+  /listings:
+    get:
+      consumes:
+      - application/json
+      description: Get details of all listings
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Listing'
+            type: array
+      summary: Get details of all listings
+      tags:
+      - listings
+    post:
+      consumes:
+      - application/json
+      description: Create a new listing
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Listing'
+            type: array
+      summary: Create listings
+      tags:
+      - listings
+  /listings/{listingId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete the existing lease
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Listing'
+            type: array
+      summary: Delete listings
+      tags:
+      - listings
+    get:
+      consumes:
+      - application/json
+      description: Get details of the listing
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: listingId
+        in: path
+        name: leaseId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Listing'
+            type: array
+      summary: Get details of listing
+      tags:
+      - listings
+    put:
+      consumes:
+      - application/json
+      description: Update the existing listing
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Listing'
+            type: array
+      summary: Update listing
+      tags:
+      - listings
+  /login:
+    post:
+      consumes:
+      - application/json
+      description: Create a new token with the input paylod
+      parameters:
+      - description: Create token
+        in: body
+        name: creds
+        required: true
+        schema:
+          $ref: '#/definitions/controllers.Credentials'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/controllers.Payload'
+      summary: Create a new token
+      tags:
+      - login
+  /societies:
+    get:
+      consumes:
+      - application/json
+      description: Get details of all societies
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Society'
+            type: array
+      summary: Get details of all societies
+      tags:
+      - societies
+    post:
+      consumes:
+      - application/json
+      description: Create a new society
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Society'
+            type: array
+      summary: Create society
+      tags:
+      - societies
+  /societies/{societyId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete the existing society
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Society'
+            type: array
+      summary: Delete society
+      tags:
+      - societies
+    get:
+      consumes:
+      - application/json
+      description: Get details of the society
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: societyId
+        in: path
+        name: societyId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Society'
+            type: array
+      summary: Get details of the society
+      tags:
+      - societies
+    put:
+      consumes:
+      - application/json
+      description: Update the existing society
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Society'
+            type: array
+      summary: Update society
+      tags:
+      - societies
+  /users:
+    get:
+      consumes:
+      - application/json
+      description: Get details of all users
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Get details of all users
+      tags:
+      - users
+    post:
+      consumes:
+      - application/json
+      description: Get a new user
+      parameters:
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Create a new
+      tags:
+      - users
+  /users/{email}:
+    get:
+      consumes:
+      - application/json
+      description: Get details of user by email
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: email
+        in: path
+        name: email
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Get details of the user by email
+      tags:
+      - users
+  /users/{userId}:
+    delete:
+      consumes:
+      - application/json
+      description: Delete the existing user
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: userId
+        in: path
+        name: userId
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Delete user
+      tags:
+      - users
+    put:
+      consumes:
+      - application/json
+      description: Update the user
+      parameters:
+      - description: token header
+        in: header
+        name: token
+        required: true
+        type: string
+      - description: userId
+        in: path
+        name: userId
+        required: true
+        type: string
+      - description: body
+        in: body
+        name: body
+        required: true
+        schema:
+          type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.User'
+            type: array
+      summary: Update the new
+      tags:
+      - users
+swagger: "2.0"
